@@ -6,10 +6,9 @@ django.setup()
 
 from django.conf import settings
 
-from trade_manager.orderbook.common.schemas import OrderInputSchema
 from trade_manager.orderbook.order_book import OrderBook
 
-params = pika.URLParameters('amqp://localhost')
+params = pika.URLParameters('amqp://guest:guest@host.docker.internal:5672/')
 
 connection = pika.BlockingConnection(params)
 

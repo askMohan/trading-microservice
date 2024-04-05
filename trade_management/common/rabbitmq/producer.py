@@ -1,7 +1,7 @@
 import pika, json
 from django.conf import settings
 
-params = pika.URLParameters('amqp://localhost')
+params = pika.URLParameters('amqp://guest:guest@host.docker.internal:5672/')
 
 connection = pika.BlockingConnection(params)
 
