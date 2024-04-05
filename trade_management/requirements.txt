@@ -1,0 +1,5 @@
+django >=3.0
+djangorestframework
+marshmallow
+pika
+bintrees

@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  order_management_service:
+    container_name: order_management
+    build:
+      context: ./order_management
+      dockerfile: Dockerfile
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./order_management:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - rabbitmq
+  
+  trade_management_service:
+    container_name: trade_management
+    build:
+      context: ./trade_management
+      dockerfile: Dockerfile
+    command: python3 manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./trade_management:/app
+    ports:
+      - 8001:8001
+
+  trade_management_service_consumer:
+    build:
+      context: ./trade_management
+      dockerfile: Dockerfile
+    command: python3 order_consumer.py
+    volumes:
+      - ./trade_management:/app
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq_ms
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+

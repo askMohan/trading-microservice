@@ -1,0 +1,1 @@
+default_app_config = 'order_manager.apps.OrderManagerConfig'
