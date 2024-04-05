@@ -4,6 +4,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq_ms
+    hostname: rabbitmq_ms
     ports:
         - 5672:5672
         - 15672:15672
@@ -15,6 +16,8 @@ services:
       interval: 10s
       retries: 10
       start_period: 30s
+    networks:
+      - tradin_microservices
 
   order_management_service:
     container_name: order_management
@@ -29,6 +32,8 @@ services:
         condition: service_healthy
     ports:
       - 8000:8000
+    networks:
+      - tradin_microservices
 
   trade_management_service:
     container_name: trade_management
@@ -43,6 +48,8 @@ services:
         condition: service_healthy
     ports:
       - 8001:8001
+    networks:
+      - tradin_microservices
 
   trade_management_service_consumer:
     build:
@@ -54,3 +61,9 @@ services:
         condition: service_healthy
     volumes:
       - ./trade_management:/app
+    networks:
+      - tradin_microservices
+
+networks:
+  tradin_microservices:
+    driver: bridge

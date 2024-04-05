@@ -8,9 +8,13 @@ from django.conf import settings
 
 from trade_manager.orderbook.order_book import OrderBook
 
-params = pika.URLParameters('amqp://guest:guest@host.docker.internal:5672/')
+params = pika.URLParameters('amqp://host.docker.internal:5672')
 
-connection = pika.BlockingConnection(params)
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(
+        host='rabbitmq_ms', heartbeat=1000, blocked_connection_timeout=1000
+        )
+)
 
 channel = connection.channel()
 
