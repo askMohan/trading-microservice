@@ -126,3 +126,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 OUTGOING_QUEUE_TO_SEND_ORDERS_TO_TRADE_MANAGER = 'out-trade-service-event-queue'
+INCOMING_QUEUE_TO_RECEIVE_TRADES_UPDATE= 'out-order-service-event-queue'

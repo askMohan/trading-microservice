@@ -8,8 +8,6 @@ from django.conf import settings
 
 from trade_manager.orderbook.order_book import OrderBook
 
-params = pika.URLParameters('amqp://host.docker.internal:5672')
-
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(
         host='rabbitmq_ms', heartbeat=1000, blocked_connection_timeout=1000
@@ -18,7 +16,7 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 
-channel.queue_declare(queue=settings.INCOMING_QUEUE_TO_RECEIVE_ORDERS_TO_TRADE_MANAGER)
+channel.queue_declare(queue=settings.INCOMING_QUEUE_TO_RECEIVE_ORDERS_TO_TRADE_MANAGER, durable=True)
 
 order_book = OrderBook()
 

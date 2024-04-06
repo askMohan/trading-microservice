@@ -1,8 +1,6 @@
 import pika, json
 from django.conf import settings
 
-params = pika.URLParameters('amqp://host.docker.internal:5672')
-
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(
         host='rabbitmq_ms', heartbeat=1000, blocked_connection_timeout=1000

@@ -92,7 +92,6 @@ class OrderList(object):
         # We loop until either the whole price-tree is gone or we run out of size!
         while other_order.quantity > 0 and self.size > 0:
             fully_matched = current_order.match(other_order)
-            # When fully matched go to next order (assume that Icebergs will have to wait their turn)
             if fully_matched:
                 current_next = current_order.next_order
                 # When current_order is exhausted add to complete list

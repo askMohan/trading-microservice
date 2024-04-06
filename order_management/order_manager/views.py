@@ -63,11 +63,12 @@ class OrderViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         try:
             order = Order.objects.get(id=pk)
-            if order.status == 1:
+            print(order.status == 3)
+            if order.status == 1 or order.status == 2:
                 order.status = ORDER_STATUS.CANCELLED.value
                 order.save()
             else:
-                Response(status=status.HTTP_417_EXPECTATION_FAILED)
+                return Response(status=status.HTTP_417_EXPECTATION_FAILED)
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         producer.publish(

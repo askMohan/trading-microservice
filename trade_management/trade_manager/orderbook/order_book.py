@@ -45,7 +45,11 @@ class OrderBook(object):
             matching_tree = self.bids if curr_order.is_bid else self.asks
             matching_tree.insert_price_order(curr_order)
         
-        self.create_entry_for_trades(curr_order, trades)
+        if curr_order.trade_quantity > 0:
+            # add database entries for trades
+            self.create_entry_for_trades(curr_order, trades)
+            # put trades information in queue
+            self.send_trade_updates_in_queue_for_order(curr_order.id)
         curr_order.trade_quantity = 0
         # And then the OB state
         # self.print_book()
@@ -81,5 +85,18 @@ class OrderBook(object):
         for order in trades:
             data = order.get_trade_result(curr_order.id)
             if data:
+                # create entry in trade table
                 trade_manager_dal.create_trade(**data)
-      
+                self.send_trade_updates_in_queue_for_order(order.id)
+               
+    def send_trade_updates_in_queue_for_order(self, order_id):
+        trade_info = trade_manager_dal.get_average_traded_price_and_traded_quantity(order_id)
+        producer.publish(
+            settings.OUTGOING_QUEUE_TO_SEND_TRADE_UPDATE_TO_ORDER_MANAGER,
+            {
+                "id":order_id,
+                "traded_quantity":trade_info['traded_quantity'],
+                "average_traded_price":float(trade_info['average_traded_price'])
+            },
+            content_type='trade_update'
+        )
