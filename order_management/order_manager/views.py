@@ -41,11 +41,14 @@ class OrderViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         try:
-            order = Order.objects.get(id=pk)
-            data = request.data
-            curr_price = order.price
-            order.price=data['updated_price']
-            order.save()
+            if order.status == 1 or order.status == 2:
+                order = Order.objects.get(id=pk)
+                data = request.data
+                curr_price = order.price
+                order.price=data['updated_price']
+                order.save()
+            else:
+                return Response(status=status.HTTP_417_EXPECTATION_FAILED)
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         producer.publish(
