@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "cc2248dc-bada-40bc-aa02-725e5d2dba60",
+		"name": "algotest.order_management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34005611"
+	},
+	"item": [
+		{
+			"name": "create_order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\" : 1,\n    \"size\" : 1,\n    \"price\": 10,\n    \"order_mode\":\"buy\",\n    \"status\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/order",
+				"description": "post api for creating orders\n\nadd json data in body"
+			},
+			"response": []
+		},
+		{
+			"name": "get_order",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\" : 1,\n    \"quantity\" : 1,\n    \"price\": 10,\n    \"company_code\": \"company\",\n    \"order_mode\":\"buy\",\n    \"status\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/order/1",
+				"description": "just add id after order in url"
+			},
+			"response": []
+		},
+		{
+			"name": "delete_order",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\" : 1,\n    \"quantity\" : 1,\n    \"price\": 10,\n    \"company_code\": \"company\",\n    \"order_mode\":\"buy\",\n    \"status\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/order/15",
+				"description": "api for delete. add order id after order"
+			},
+			"response": []
+		},
+		{
+			"name": "list all order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/api/order"
+			},
+			"response": []
+		},
+		{
+			"name": "update_order",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"updated_price\":\"60\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/order/14"
+			},
+			"response": []
+		}
+	]
+}

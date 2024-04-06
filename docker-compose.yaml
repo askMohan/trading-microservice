@@ -24,7 +24,7 @@ services:
     build:
       context: ./order_management
       dockerfile: Dockerfile
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./order_management:/app
     depends_on:
@@ -40,7 +40,7 @@ services:
     build:
       context: ./trade_management
       dockerfile: Dockerfile
-    command: python3 manage.py runserver 0.0.0.0:8001
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8001"
     volumes:
       - ./trade_management:/app
     depends_on:
